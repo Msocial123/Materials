@@ -1,0 +1,70 @@
+// This is a public class named ExampleClass
+public class ExampleClass {
+
+    // Public variable accessible from anywhere
+    public String publicVariable;
+
+    // Private variable only accessible within this class
+    private String privateVariable;
+
+    // Static member shared by all instances of ExampleClass
+    public static int staticCounter = 0;
+
+    // Constructor to initialize the object
+    public ExampleClass(String publicVar, String privateVar) {
+        this.publicVariable = publicVar;
+        this.privateVariable = privateVar;
+        staticCounter++;
+    }
+
+    // Public method to get the value of the private variable
+    public String getPrivateVariable() {
+        return privateVariable;
+    }
+
+    // Static method to get the current static counter value
+    public static int getStaticCounter() {
+        return staticCounter;
+    }
+
+    // Method to demonstrate scope and blocks
+    public void demonstrateScopeAndBlocks() {
+        // Local variable with block scope
+        int localVar = 10;
+
+        // Block scope begins
+        {
+            // Another local variable with block scope
+            int blockVar = 20;
+            System.out.println("Block Variable: " + blockVar);
+
+            // Local variable can be accessed within the block
+            System.out.println("Local Variable: " + localVar);
+        }
+        // Block scope ends
+
+        // blockVar is not accessible outside the block
+        // System.out.println("Block Variable: " + blockVar); // This will cause an error
+
+        System.out.println("Local Variable outside block: " + localVar);
+    }
+
+    public static void main(String[] args) {
+        // Creating an object of ExampleClass
+        ExampleClass example1 = new ExampleClass("Public1", "Private1");
+        ExampleClass example2 = new ExampleClass("Public2", "Private2");
+
+        // Accessing public and private variables
+        System.out.println("Example 1 Public Variable: " + example1.publicVariable);
+        System.out.println("Example 1 Private Variable (via method): " + example1.getPrivateVariable());
+
+        System.out.println("Example 2 Public Variable: " + example2.publicVariable);
+        System.out.println("Example 2 Private Variable (via method): " + example2.getPrivateVariable());
+
+        // Accessing static member
+        System.out.println("Static Counter: " + ExampleClass.getStaticCounter());
+
+        // Demonstrating scope and blocks
+        example1.demonstrateScopeAndBlocks();
+    }
+}

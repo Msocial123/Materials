@@ -1,0 +1,76 @@
+// Custom exception class for insufficient funds
+class InsufficientFundsException extends Exception {
+    public InsufficientFundsException(String message) {
+        super(message);
+    }
+}
+
+// BankAccount class representing a simple bank account
+public class BankAccount {
+    private String accountNumber;
+    private double balance;
+
+    // Constructor to initialize account number and balance
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+
+    // Method to deposit money
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
+        balance += amount;
+        System.out.println("Deposited: " + amount + ". New balance: " + balance);
+    }
+
+    // Method to withdraw money
+    public void withdraw(double amount) throws InsufficientFundsException {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        if (amount > balance) {
+            throw new InsufficientFundsException("Insufficient funds for withdrawal.");
+        }
+        balance -= amount;
+        System.out.println("Withdrew: " + amount + ". New balance: " + balance);
+    }
+
+    // Method to get the current balance
+    public double getBalance() {
+        return balance;
+    }
+
+    public static void main(String[] args) {
+        // Creating a bank account with initial balance
+        BankAccount account = new BankAccount("12345", 500.0);
+
+        try {
+            // Performing some operations
+            account.deposit(150.0);
+            account.withdraw(200.0);
+            account.withdraw(500.0);  // This will cause an InsufficientFundsException
+        } catch (IllegalArgumentException e) {
+            // Handling illegal argument exception
+            System.out.println("Error: " + e.getMessage());
+        } catch (InsufficientFundsException e) {
+            // Handling insufficient funds exception
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            // Finally block always executes
+            System.out.println("Final balance: " + account.getBalance());
+        }
+
+        try {
+            // Another operation that will cause an exception
+            account.deposit(-50.0);  // This will cause an IllegalArgumentException
+        } catch (IllegalArgumentException e) {
+            // Handling illegal argument exception
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            // Finally block always executes
+            System.out.println("Final balance: " + account.getBalance());
+        }
+    }
+}
